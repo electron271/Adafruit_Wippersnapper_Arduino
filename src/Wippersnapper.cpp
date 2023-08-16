@@ -2192,7 +2192,7 @@ void Wippersnapper::runNetFSM() {
                   WS_LED_STATUS_WIFI_CONNECTING);
       }
       // Attempt to connect to wireless network
-      maxAttempts = 5;
+      maxAttempts = 20;
       while (maxAttempts > 0) {
         // blink before we connect
         statusLEDBlink(WS_LED_STATUS_WIFI_CONNECTING);
@@ -2203,6 +2203,10 @@ void Wippersnapper::runNetFSM() {
         WS.feedWDT();
         // blink to simulate a delay to allow wifi connection to process
         statusLEDBlink(WS_LED_STATUS_WIFI_CONNECTING);
+        
+        // FIXME: delay slightly to allow connection to process (this is a hack)
+        delay(1000);
+
         // did we connect?
         if (networkStatus() == WS_NET_CONNECTED)
           break;
